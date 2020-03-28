@@ -18,7 +18,7 @@ export default function Incidents() {
     const navigation = useNavigation();
 
     function navigateToDetail(incident) {
-        navigation.navigate('Detail', incident);
+        navigation.navigate('Detail', {incident});
     }
 
     async function loadIncidents() {
@@ -27,10 +27,9 @@ export default function Incidents() {
             return;
         }
 
-        if (total > 0 && incidents.length === total) {
+        if (total > 0 && incidents.length == total) {
             return;
         }
-
         setLoading(true);
 
         const response = await api.get('incidents?page=' + page);
@@ -61,10 +60,10 @@ export default function Incidents() {
             <FlatList
                 data={incidents}
                 style={styles.incidentList}
-                keyExtractor={incident => (incident.id)}
+                keyExtractor={incident => (String(incident.id))}
                 showsVerticalScrollIndicator={false}
                 onEndReached={loadIncidents}
-                onEndReachedThreshold={0.2}
+                onEndReachedThreshold={0}
                 renderItem={({ item: incident }) => (
                     <View style={styles.incident}>
                         <Text style={styles.incidentProperty}>ONG:</Text>
